@@ -113,3 +113,33 @@ it('finishes the execution of every database in a run with several databases', f
     ])
         ->and($executions->whereNull('finished_at')->pluck('database_name')->all())->toBe([]);
 });
+
+it('can render the database backup edit general view', function () {
+    $team = Team::factory()->create();
+    $server = Server::factory()->create([
+        'team_id' => $team->id,
+        'private_key_id' => PrivateKey::factory()->create(['team_id' => $team->id])->id,
+    ]);
+    $server->settings()->update(['is_reachable' => true, 'is_usable' => true]);
+    $destination = StandaloneDocker::where('server_id', $server->id)->firstOrFail();
+    $environment = Environment::factory()->create(['project_id' => Project::factory()->create(['team_id' => $team->id])->id]);
+    $database = create_standalone_postgresql($environment->id, $destination, ['status' => 'running:healthy']);
+    $backup = new ScheduledDatabaseBackup;
+    $backup->forceFill([
+        'enabled' => true,
+        'save_s3' => false,
+        'frequency' => 'daily',
+        'databases_to_backup' => 'first,second',
+        'database_id' => $database->id,
+        'database_type' => $database->getMorphClass(),
+        'team_id' => $team->id,
+    ])->save();
+
+    $rendered = view('livewire.project.database.backup-edit.general', [
+        'backup' => $backup,
+        'backupEnabled' => true,
+        'status' => 'running:healthy',
+    ])->render();
+
+    expect($rendered)->toContain('missingBackupNotificationDays');
+});
