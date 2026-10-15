@@ -1,6 +1,12 @@
 <form wire:submit="save" class="application-settings-form">
     <x-unsaved-bar action="save" />
 
+    @if(session()->has('message'))
+        <div class="mb-4 rounded-lg bg-emerald-500/10 p-3 text-sm text-emerald-500 ring-1 ring-emerald-500/20">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <x-application.settings-section title="Backup schedule"
         description="Choose when this storage is archived and how long each backup may run.">
         <x-slot:actions>
