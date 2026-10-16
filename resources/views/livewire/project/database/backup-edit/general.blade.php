@@ -66,48 +66,12 @@
                                         </button>
                                     </span>
                                 </template>
-                                <input x-model="draft" @keydown.enter.prevent="addDatabase()"
-                                    @keydown="if ($event.key === ',') { $event.preventDefault(); addDatabase(); }"
-                                    @blur="addDatabase()" type="text"
-                                    placeholder="Type a database and press Enter" />
+                                <input x-model="draft" @keydown.enter.prevent="addDatabase" placeholder="Add database and press enter..." />
                             </div>
-                            <p class="mt-1.5 text-xs text-neutral-500 dark:text-fg-dim">
-                                Add one or more database names. Leave empty to include the default database.
-                            </p>
                         </div>
                     @endif
                 </div>
-            @elseif ($backup->database_type === 'App\Models\StandaloneMongodb')
-                <x-forms.input label="Databases to include"
-                    helper="Use database:collection1,collection2|database2 to exclude selected collections. Leave empty to include all databases and collections."
-                    id="databasesToBackup" />
-            @elseif ($backup->database_type === 'App\Models\StandaloneClickhouse')
-                <x-forms.input label="Databases to back up"
-                    helper="Comma-separated database names. Leave empty to include the default database."
-                    id="databasesToBackup" />
-            @elseif ($backup->database_type === 'App\Models\StandaloneSqlite')
-                <x-forms.input label="Database files to back up"
-                    helper="Comma-separated file names inside the data volume. Leave empty to back up every configured file."
-                    id="databasesToBackup" />
             @endif
-
-            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <x-forms.input label="Frequency" id="frequency" required />
-                <x-forms.input label="Timezone" id="timezone" disabled
-                    helper="Uses the deployment server timezone, or the instance timezone when none is configured."
-                    required />
-                <x-forms.input label="Timeout" id="timeout" type="number" min="60"
-                    helper="Maximum backup runtime in seconds." required />
-                <x-forms.input label="Missing backup alert after" id="missingBackupNotificationDays" type="number"
-                    min="0" max="365" suffix="days"
-                    helper="Notify through backup failure channels after this many days without an execution. Use 0 to disable." required />
-            </div>
-        </div>
-    </x-application.settings-section>
-</form>ckupNotificationDays" type="number"
-                    min="0" max="365" suffix="days" canGate="manageBackups" :canResource="$backup->database"
-                    helper="Notify through backup failure channels after this many days without an execution. Use 0 to disable." required />
-            </div>
         </div>
     </x-application.settings-section>
 </form>
