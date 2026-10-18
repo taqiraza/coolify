@@ -66,7 +66,27 @@
                                         </button>
                                     </span>
                                 </template>
-                                <input x-model="draft" @keydown.enter.prevent="addDatabase()" type="text" class="grow font-mono" placeholder="Add database and press Enter...">
+                                <input x-model="draft" @keydown.enter.prevent="addDatabase()" @blur="addDatabase()" placeholder="Type database name and press Enter..." class="input border-none !bg-transparent !p-0 focus:ring-0 focus:outline-none" />
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            @endif
+
+            <div class="grid gap-4 lg:grid-cols-2">
+                <x-forms.input id="frequency" label="Frequency" required
+                    helper="Use every_minute, hourly, daily, weekly, monthly, yearly, or a cron expression." />
+                <x-forms.input id="timezone" label="Timezone" disabled
+                    helper="Uses the backup server timezone, or the instance timezone when none is configured." required />
+                <x-forms.input id="timeout" type="number" min="60" max="36000" label="Timeout"
+                    helper="Maximum backup runtime in seconds." required />
+                <x-forms.input label="Missing backup alert after" id="missingBackupNotificationDays" type="number"
+                    min="0" max="365" suffix="days"
+                    helper="Notify through backup failure channels after this many days without an execution. Use 0 to disable." required />
+            </div>
+        </div>
+    </x-application.settings-section>
+</form>ddDatabase()" type="text" class="grow font-mono" placeholder="Add database and press Enter...">
                             </div>
                         </div>
                     @endif
