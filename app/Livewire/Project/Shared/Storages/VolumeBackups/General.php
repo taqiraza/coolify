@@ -30,7 +30,7 @@ class General extends Component
     {
         if ($this->storage) {
             // Immediate volume backup execution trigger
-            session()->flash('message', 'Volume backup triggered successfully.');
+            session()->flash('success', 'Volume backup triggered successfully.');
         }
     }
 
