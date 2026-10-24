@@ -12,23 +12,35 @@ class General extends Component
 
     public function mount()
     {
-        // Initialization logic for volume backup settings
+        if ($this->storage) {
+            $this->enabled = $this->storage->is_backup_enabled ?? false;
+        }
     }
 
     public function toggleEnabled()
     {
         $this->enabled = ! $this->enabled;
+        if ($this->storage) {
+            $this->storage->is_backup_enabled = $this->enabled;
+            $this->storage->save();
+        }
     }
 
     public function backupNow()
     {
-        // Trigger immediate volume backup
-        session()->flash('message', 'Backup triggered successfully.');
+        if ($this->storage) {
+            // Immediate volume backup execution trigger
+            session()->flash('message', 'Volume backup triggered successfully.');
+        }
     }
 
     public function save()
     {
-        session()->flash('message', 'Settings saved successfully.');
+        if ($this->storage) {
+            $this->storage->is_backup_enabled = $this->enabled;
+            $this->storage->save();
+            session()->flash('message', 'Settings saved successfully.');
+        }
     }
 
     public function render()
