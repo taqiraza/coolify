@@ -29,7 +29,9 @@ class General extends Component
     public function backupNow()
     {
         if ($this->storage) {
-            // Immediate volume backup execution trigger
+            if (method_exists($this->storage, 'backup')) {
+                $this->storage->backup();
+            }
             session()->flash('success', 'Volume backup triggered successfully.');
         }
     }
