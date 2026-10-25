@@ -25,7 +25,7 @@ class RestoreTraefikAcmeBackup
         // Copy the chosen backup before pruning, which may remove it when it is the oldest one.
         $script = implode('; ', [
             'set -e',
-            'trap '.escapeshellarg('rm -f -- '.escapeshellarg($restorePath).' '.escapeshellarg($backup['temporary_path'])).' EXIT',
+            'trap '.escapeshellarg('rm -f -- '.escapeshellarg($restorePath).' '.$backup['temporary_path']).' EXIT',
             'umask 077',
             "[ -f {$source} ]",
             "cp -- {$source} {$temporary}",
