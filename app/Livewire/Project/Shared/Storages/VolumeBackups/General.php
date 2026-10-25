@@ -31,6 +31,8 @@ class General extends Component
         if ($this->storage) {
             if (method_exists($this->storage, 'backup')) {
                 $this->storage->backup();
+            } else {
+                dispatch(new \App\Jobs\BackupVolumeJob($this->storage));
             }
             session()->flash('success', 'Volume backup triggered successfully.');
         }
