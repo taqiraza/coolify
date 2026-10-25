@@ -31,7 +31,7 @@ class RestoreTraefikAcmeBackup
             "cp -- {$source} {$temporary}",
             "chmod 600 {$temporary}",
             $backup['script'],
-            "mv -- {$temporary} ".escapeshellarg("{$directory}/acme.json"),
+            "mv -f -- {$temporary} ".escapeshellarg("{$directory}/acme.json"),
             ListTraefikAcmeBackups::pruneCommands($server),
         ]);
 
