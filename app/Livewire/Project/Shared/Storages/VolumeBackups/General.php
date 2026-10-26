@@ -23,6 +23,7 @@ class General extends Component
         if ($this->storage) {
             $this->storage->is_backup_enabled = $this->enabled;
             $this->storage->save();
+            $this->dispatch('success', 'Backup settings updated.');
         }
     }
 
@@ -43,7 +44,7 @@ class General extends Component
         if ($this->storage) {
             $this->storage->is_backup_enabled = $this->enabled;
             $this->storage->save();
-            session()->flash('message', 'Settings saved successfully.');
+            $this->dispatch('success', 'Backup settings saved.');
         }
     }
 
