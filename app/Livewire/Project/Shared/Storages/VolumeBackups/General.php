@@ -31,8 +31,10 @@ class General extends Component
         if ($this->storage) {
             if (method_exists($this->storage, 'backup')) {
                 $this->storage->backup();
+                $this->dispatch('success', 'Volume backup triggered successfully.');
+            } else {
+                $this->dispatch('error', 'Volume backup method is not supported for this resource.');
             }
-            $this->dispatch('success', 'Volume backup triggered successfully.');
         }
     }
 
